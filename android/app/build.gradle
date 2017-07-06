@@ -95,6 +95,8 @@ def appName = System.getenv("GRADLE_APP_NAME") ?: 'CodePushDemo debug'
 def _versionCode = (System.getenv("ANDROID_VERSION_CODE") ?: "1") as Integer
 def _versionName = System.getenv("ANDROID_VERSION_NAME") ?: "1.0.0"
 
+def codePushKey = '"' + (System.getenv("CODEPUSH_KEY_ANDROID") ?: '') + '"'
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -128,9 +130,11 @@ android {
     buildTypes {
         debug {
             resValue "string", "app_name", appName
+            buildConfigField "String", "CODEPUSH_KEY", '""'
         }
         release {
             resValue "string", "app_name", appName
+            buildConfigField "String", "CODEPUSH_KEY", codePushKey
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
